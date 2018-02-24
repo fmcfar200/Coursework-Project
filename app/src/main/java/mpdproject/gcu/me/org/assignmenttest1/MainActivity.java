@@ -33,33 +33,65 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private String url1="https://trafficscotland.org/rss/feeds/currentincidents.aspx";
     private String url2="https://trafficscotland.org/rss/feeds/roadworks.aspx";
     private String url3="https://trafficscotland.org/rss/feeds/plannedroadworks.aspx";
+
     private TextView urlInput;
-    private Button startButton;
     private String result = "";
+
+    private Button incidentsButton;
+    private Button rwButton;
+    private Button plannedRWButton;
+
 
     List<RoadWorksItem> rwList = new ArrayList<RoadWorksItem>();
 
-
+    private enum fetchType
+    {
+        ROADWORKS,
+        INCIDENTS,
+        PLANNED_RW;
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         urlInput = (TextView)findViewById(R.id.urlInput);
-        startButton = (Button)findViewById(R.id.startButton);
-        startButton.setOnClickListener(this);
+
+        incidentsButton = (Button)findViewById(R.id.incidentsButton);
+        incidentsButton.setOnClickListener(this);
+
+        rwButton = (Button)findViewById(R.id.roadworksButton);
+        rwButton.setOnClickListener(this);
+
+        plannedRWButton = (Button)findViewById(R.id.plannedRWButton);
+        plannedRWButton.setOnClickListener(this);
 
     } // End of onCreate
 
     public void onClick(View aview)
     {
-        startProgress();
+        if (aview == incidentsButton)
+        {
+            startProgress(url1);
+
+        }
+        else if (aview == rwButton)
+        {
+            startProgress(url2);
+
+        }
+        else if (aview == plannedRWButton)
+        {
+            startProgress(url3);
+
+        }
+
     }
 
-    public void startProgress()
+    public void startProgress(String url)
     {
         // Run network access on a separate thread;
-        new Thread(new Task(url2)).start();
+        new Thread(new Task(url)).start();
     } //
 
     // Need separate thread to access the internet resource over network
@@ -77,6 +109,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         {
 
             RoadWorksItem rwItem = null;
+            urlInput.clearComposingText();
 
             URL aurl;
             URLConnection yc;
@@ -147,6 +180,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                      {
                                          rwItem.desc = pp.nextText().trim();
                                          Log.e("Attrib", rwItem.desc);
+                                         rwItem.desc.replace("<","");
+                                         rwItem.desc.replace(">","");
+                                         rwItem.desc.replace("/","");
+
+
                                      }
                                      else if (pp.getName().equalsIgnoreCase("link"))
                                      {

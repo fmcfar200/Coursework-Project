@@ -7,10 +7,22 @@
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent">
                 <Button
-                    android:id="@+id/startButton"
+                    android:id="@+id/incidentsButton"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:text="Press to get data"
+                    android:text="current incidents"
+                    />
+                <Button
+                    android:id="@+id/roadworksButton"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="roadworks"
+                    />
+                <Button
+                android:id="@+id/plannedRWButton"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="planned roadworks"
                 />
 
                 <TextView
@@ -18,7 +30,7 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:textSize="20sp"
-                    android:text="Welcome to Mobile Platform Development"
+                    android:text=""
                 />
     </LinearLayout>
 </ScrollView>
