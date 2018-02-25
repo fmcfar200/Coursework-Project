@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     {
         ROADWORKS,
         INCIDENTS,
-        PLANNED_RW;
+        PLANNED_RW
     }
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -72,16 +72,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     {
         if (aview == incidentsButton)
         {
+            urlInput.setText("");
             startProgress(url1);
 
         }
         else if (aview == rwButton)
         {
+            urlInput.setText("");
             startProgress(url2);
 
         }
         else if (aview == plannedRWButton)
         {
+            urlInput.setText("");
             startProgress(url3);
 
         }
@@ -109,7 +112,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         {
 
             RoadWorksItem rwItem = null;
-            urlInput.clearComposingText();
 
             URL aurl;
             URLConnection yc;
@@ -222,7 +224,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             MainActivity.this.runOnUiThread(new Runnable()
             {
                 public void run() {
-                    Log.d("UI thread", "I am the UI thread" + rwList.size());
+                    Log.d("UI thread", "I am the UI thread:  " + rwList.size());
 
                     for(int i = 0; i < rwList.size(); i++)
                     {
