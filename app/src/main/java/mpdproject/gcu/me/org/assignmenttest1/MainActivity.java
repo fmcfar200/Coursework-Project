@@ -7,6 +7,7 @@
 
 package mpdproject.gcu.me.org.assignmenttest1;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -30,19 +31,13 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener
 {
-    private String url1="https://trafficscotland.org/rss/feeds/currentincidents.aspx";
-    private String url2="https://trafficscotland.org/rss/feeds/roadworks.aspx";
-    private String url3="https://trafficscotland.org/rss/feeds/plannedroadworks.aspx";
 
-    private TextView urlInput;
-    private String result = "";
 
     private Button incidentsButton;
-    private Button rwButton;
     private Button plannedRWButton;
 
 
-    List<RoadWorksItem> rwList = new ArrayList<RoadWorksItem>();
+
 
     private enum fetchType
     {
@@ -55,13 +50,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        urlInput = (TextView)findViewById(R.id.urlInput);
 
         incidentsButton = (Button)findViewById(R.id.incidentsButton);
         incidentsButton.setOnClickListener(this);
-
-        rwButton = (Button)findViewById(R.id.roadworksButton);
-        rwButton.setOnClickListener(this);
 
         plannedRWButton = (Button)findViewById(R.id.plannedRWButton);
         plannedRWButton.setOnClickListener(this);
@@ -72,31 +63,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     {
         if (aview == incidentsButton)
         {
-            urlInput.setText("");
-            startProgress(url1);
-
-        }
-        else if (aview == rwButton)
-        {
-            urlInput.setText("");
-            startProgress(url2);
-
+            StartIncidents();
         }
         else if (aview == plannedRWButton)
         {
-            urlInput.setText("");
-            startProgress(url3);
-
+            StartPlannedRW();
         }
 
     }
 
-    public void startProgress(String url)
+    public void StartIncidents()
     {
-        // Run network access on a separate thread;
-        new Thread(new Task(url)).start();
-    } //
+        Intent i = new Intent(getApplicationContext(), ItemViewer.class);
+        i.putExtra("FetchType", "Current");
+        startActivity(i);
+    }
 
+    public void StartPlannedRW()
+    {
+        Intent i = new Intent(getApplicationContext(), ItemViewer.class);
+        i.putExtra("FetchType", "Planned");
+        startActivity(i);
+    }
+
+
+    /*
     // Need separate thread to access the internet resource over network
     // Other neater solutions should be adopted in later iterations.
     class Task implements Runnable
@@ -110,134 +101,119 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         @Override
         public void run()
         {
+                RoadWorksItem rwItem = null;
+                rwList = new ArrayList<>();
 
-            RoadWorksItem rwItem = null;
-
-            URL aurl;
-            URLConnection yc;
-            BufferedReader in = null;
-            String inputLine = "";
+                URL aurl;
+                URLConnection yc;
+                BufferedReader in = null;
+                String inputLine = "";
 
 
-            Log.e("MyTag","in run");
+                Log.e("MyTag", "in run");
 
-            try
-            {
-                Log.e("MyTag","in try");
-                aurl = new URL(url);
-                yc = aurl.openConnection();
-                in = new BufferedReader(new InputStreamReader(yc.getInputStream()));
-                //
-                // Throw away the first 2 header lines before parsing
-                //
-                //
-                //
-                while ((inputLine = in.readLine()) != null)
-                {
-                    result = result + inputLine;
-                    //Log.e("MyTag",inputLine);
+                try {
+                    Log.e("MyTag", "in try");
+                    aurl = new URL(url);
+                    yc = aurl.openConnection();
+                    in = new BufferedReader(new InputStreamReader(yc.getInputStream()));
+                    //
+                    // Throw away the first 2 header lines before parsing
+                    //
+                    //
+                    //
+                    while ((inputLine = in.readLine()) != null) {
+                        result = result + inputLine;
+                        //Log.e("MyTag",inputLine);
 
+                    }
+                    in.close();
+                } catch (IOException ae) {
+                    Log.e("MyTag", "ioexception");
                 }
-                in.close();
-            }
-            catch (IOException ae)
-            {
-                Log.e("MyTag", "ioexception");
-            }
 
-            //
-            // Now that you have the xml data you can parse it
-            //
-            if (result != null)
-            {
-                try
-                {
-                    XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
-                    factory.setNamespaceAware(true);
-                    XmlPullParser pp = factory.newPullParser();
-                    pp.setInput(new StringReader(result));
+                //
+                // Now that you have the xml data you can parse it
+                //
+                if (result != null) {
+                    try {
+                        XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
+                        factory.setNamespaceAware(true);
+                        XmlPullParser pp = factory.newPullParser();
+                        pp.setInput(new StringReader(result));
 
-                    int eventType = pp.getEventType();
-                    boolean finished = false;
-                    while(eventType != XmlPullParser.END_DOCUMENT && !finished)
-                    {
-                        switch (eventType)
-                        {
-                            case XmlPullParser.START_DOCUMENT:
-                                break;
-                            case XmlPullParser.START_TAG:
+                        int eventType = pp.getEventType();
+                        boolean finished = false;
+                        while (eventType != XmlPullParser.END_DOCUMENT && !finished) {
+                            switch (eventType) {
+                                case XmlPullParser.START_DOCUMENT:
+                                    break;
+                                case XmlPullParser.START_TAG:
 
-                                 if(pp.getName().equalsIgnoreCase("item"))
-                                 {
-                                     rwItem = new RoadWorksItem();
-                                 }
-                                 else if(rwItem != null)
-                                 {
-                                     if (pp.getName().equalsIgnoreCase("title"))
-                                     {
-                                        rwItem.title = pp.nextText().trim();
-                                         Log.e("Attrib", rwItem.title);
-                                     }
-                                     else if (pp.getName().equalsIgnoreCase("description"))
-                                     {
-                                         rwItem.desc = pp.nextText().trim();
-                                         Log.e("Attrib", rwItem.desc);
-                                         rwItem.desc.replace("<","");
-                                         rwItem.desc.replace(">","");
-                                         rwItem.desc.replace("/","");
+                                    if (pp.getName().equalsIgnoreCase("item")) {
+                                        rwItem = new RoadWorksItem();
+                                    } else if (rwItem != null) {
+                                        if (pp.getName().equalsIgnoreCase("title")) {
+                                            rwItem.title = pp.nextText().trim();
+                                            Log.e("Attrib", rwItem.title);
+                                        } else if (pp.getName().equalsIgnoreCase("description")) {
+                                            rwItem.desc = pp.nextText().trim();
+                                            Log.e("Attrib", rwItem.desc);
+                                            rwItem.desc.replace("<", "");
+                                            rwItem.desc.replace(">", "");
+                                            rwItem.desc.replace("/", "");
 
 
-                                     }
-                                     else if (pp.getName().equalsIgnoreCase("link"))
-                                     {
-                                         rwItem.link = pp.nextText().trim();
-                                         Log.e("Attrib", rwItem.link);
-                                     }
+                                        } else if (pp.getName().equalsIgnoreCase("link")) {
+                                            rwItem.link = pp.nextText().trim();
+                                            Log.e("Attrib", rwItem.link);
+                                        }
 
-                                 }
-                                 break;
-                            case XmlPullParser.END_TAG:
-                                if (pp.getName().equalsIgnoreCase("item") && rwItem != null)
-                                {
-                                    rwList.add(rwItem);
-                                    Log.e("Action", "add" );
+                                    }
+                                    break;
+                                case XmlPullParser.END_TAG:
+                                    if (pp.getName().equalsIgnoreCase("item") && rwItem != null) {
+                                        rwList.add(rwItem);
+                                        Log.e("Action", "add");
 
-                                }
-                                else if (pp.getName().equalsIgnoreCase("channel"))
-                                {
-                                    finished = true;
-                                }
-                                break;
+                                    } else if (pp.getName().equalsIgnoreCase("channel")) {
+                                        finished = true;
+                                    }
+                                    break;
+                            }
+                            eventType = pp.next();
                         }
-                        eventType = pp.next();
-                    }
-                } catch (XmlPullParserException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            // Now update the TextView to display raw XML data
-            // Probably not the best way to update TextView
-            // but we are just getting started !
-
-            MainActivity.this.runOnUiThread(new Runnable()
-            {
-                public void run() {
-                    Log.d("UI thread", "I am the UI thread:  " + rwList.size());
-
-                    for(int i = 0; i < rwList.size(); i++)
-                    {
-                        urlInput.setText(urlInput.getText() + rwList.get(i).title + "\n" + rwList.get(i).desc + "\n" + rwList.get(i).link + "\n \n");
-
+                    } catch (XmlPullParserException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
 
-
-                    //urlInput.setText(result);
                 }
-            });
+                // Now update the TextView to display raw XML data
+                // Probably not the best way to update TextView
+                // but we are just getting started !
+
+                MainActivity.this.runOnUiThread(new Runnable() {
+                    public void run() {
+                        Log.d("UI thread", "I am the UI thread:  " + rwList.size());
+
+                        for (int i = 0; i < rwList.size(); i++) {
+                            urlInput.setText(urlInput.getText() + rwList.get(i).title + "\n" + rwList.get(i).desc + "\n" + rwList.get(i).link + "\n \n");
+                            rwList.remove(i);
+
+                        }
+
+                        Log.d("My list: ", String.valueOf(rwList.size()));
+                        //urlInput.setText(result);
+                    }
+
+                });
+
+
         }
 
     }
 
+*/
 }

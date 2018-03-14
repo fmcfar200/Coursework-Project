@@ -12,12 +12,7 @@
                     android:layout_height="wrap_content"
                     android:text="current incidents"
                     />
-                <Button
-                    android:id="@+id/roadworksButton"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:text="roadworks"
-                    />
+
                 <Button
                 android:id="@+id/plannedRWButton"
                 android:layout_width="fill_parent"
