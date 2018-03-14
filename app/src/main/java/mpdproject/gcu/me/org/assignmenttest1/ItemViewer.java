@@ -17,8 +17,13 @@ import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.net.URL;
 import java.net.URLConnection;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class ItemViewer extends AppCompatActivity implements View.OnClickListener {
 
@@ -43,9 +48,36 @@ public class ItemViewer extends AppCompatActivity implements View.OnClickListene
 
         urlInput = (TextView)findViewById(R.id.urlInput);
 
+        Bundle extras = getIntent().getExtras();
+        int fetchType = extras.getInt("FetchType");;
+        Log.e("tag", Integer.toString(fetchType));
 
+        if (fetchType == 1)
+        {
+            startProgress(url1, fetchType);
+        }
+        else
+        {
+            startProgress(url3, fetchType);
 
+        }
 
+        /*
+        if (fetchType != null)
+        {
+            if (fetchType == "Current")
+            {
+                Log.e("type", fetchType);
+                //startProgress(url1);
+
+            }
+            else if (fetchType == "Planned")
+            {
+                //startProgress(url3);
+            }
+        }
+
+        */
     }
 
 
@@ -54,34 +86,17 @@ public class ItemViewer extends AppCompatActivity implements View.OnClickListene
 
     }
 
-    protected  void onResume()
+    protected  void onStart()
     {
-        super.onResume();
-
-        Bundle extras = getIntent().getExtras();
-        if (extras != null)
-        {
-            String fetchType = extras.getString("FetchType");
-
-            if (fetchType == "Current")
-            {
-                Log.e("type", fetchType);
-                startProgress(url1);
-
-            }
-            else if (fetchType == "Planned")
-            {
-                startProgress(url3);
-            }
+        super.onStart();
 
 
-        }
     }
 
 
-    public void startProgress(String url) {
+    public void startProgress(String url, int fetchType) {
 
-        new Thread(new Task(url)).start();
+        new Thread(new Task(url, fetchType)).start();
 
         // Run network access on a separate thread;
 
@@ -89,9 +104,11 @@ public class ItemViewer extends AppCompatActivity implements View.OnClickListene
 
     class Task implements Runnable {
         private String url;
+        private int fetchType;
 
-        public Task(String aurl) {
+        public Task(String aurl, int afetchType) {
             url = aurl;
+            fetchType = afetchType;
         }
 
         @Override
@@ -130,8 +147,10 @@ public class ItemViewer extends AppCompatActivity implements View.OnClickListene
             //
             // Now that you have the xml data you can parse it
             //
-            if (result != null) {
-                try {
+            if (result != null)
+            {
+                try
+                {
                     XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
                     factory.setNamespaceAware(true);
                     XmlPullParser pp = factory.newPullParser();
@@ -139,51 +158,87 @@ public class ItemViewer extends AppCompatActivity implements View.OnClickListene
 
                     int eventType = pp.getEventType();
                     boolean finished = false;
-                    while (eventType != XmlPullParser.END_DOCUMENT && !finished) {
-                        switch (eventType) {
+                    while (eventType != XmlPullParser.END_DOCUMENT && !finished)
+                    {
+                        switch (eventType)
+                        {
                             case XmlPullParser.START_DOCUMENT:
                                 break;
                             case XmlPullParser.START_TAG:
 
-                                if (pp.getName().equalsIgnoreCase("item")) {
+                                if (pp.getName().equalsIgnoreCase("item"))
+                                {
                                     rwItem = new RoadWorksItem();
                                 } else if (rwItem != null) {
-                                    if (pp.getName().equalsIgnoreCase("title")) {
+                                    if (pp.getName().equalsIgnoreCase("title"))
+                                    {
                                         rwItem.title = pp.nextText().trim();
-                                        Log.e("Attrib", rwItem.title);
-                                    } else if (pp.getName().equalsIgnoreCase("description")) {
+                                    } else if (pp.getName().equalsIgnoreCase("description"))
+                                    {
                                         rwItem.desc = pp.nextText().trim();
-                                        Log.e("Attrib", rwItem.desc);
-                                        rwItem.desc.replace("<", "");
-                                        rwItem.desc.replace(">", "");
-                                        rwItem.desc.replace("/", "");
+
+                                        if (fetchType == 2)
+                                        {
+                                            String[] sd = rwItem.desc.split(":");
+                                            String[] sd2 = sd[1].split(", ");
+                                            String[] sd3 = sd2[1].split(" - ");
+                                            String startDate = sd3[0];
+
+                                            String ed = sd[3];
+                                            String[] ed2 = ed.split(", ");
+                                            String[] ed3 = ed2[1].split(" - ");
+                                            String endDate = ed3[0];
+
+                                            SimpleDateFormat df = new SimpleDateFormat("dd MMMM yyyy");
+                                            Date myStartDate = df.parse(startDate);
+                                            Date myEndDate = df.parse(endDate);
+
+                                            Log.e("Start Date", String.valueOf(myStartDate));
+                                            Log.e("End Date", String.valueOf(myEndDate));
 
 
-                                    } else if (pp.getName().equalsIgnoreCase("link")) {
+                                            rwItem.startDate = myStartDate;
+                                            rwItem.endDate = myEndDate;
+                                        }
+                                        else
+                                        {
+                                            rwItem.startDate = null;
+                                            rwItem.endDate = null;
+                                        }
+
+
+
+                                    } else if (pp.getName().equalsIgnoreCase("link"))
+                                    {
                                         rwItem.link = pp.nextText().trim();
-                                        Log.e("Attrib", rwItem.link);
                                     }
 
                                 }
                                 break;
                             case XmlPullParser.END_TAG:
-                                if (pp.getName().equalsIgnoreCase("item") && rwItem != null) {
+                                if (pp.getName().equalsIgnoreCase("item") && rwItem != null)
+                                {
                                     rwList.add(rwItem);
-                                    Log.e("Action", "add");
 
-                                } else if (pp.getName().equalsIgnoreCase("channel")) {
+                                } else if (pp.getName().equalsIgnoreCase("channel"))
+                                {
                                     finished = true;
                                 }
                                 break;
                         }
                         eventType = pp.next();
                     }
-                } catch (XmlPullParserException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
+                }
+                catch (XmlPullParserException e)
+                {
                     e.printStackTrace();
                 }
-
+                catch (IOException e)
+                {
+                    e.printStackTrace();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
             }
             // Now update the TextView to display raw XML data
             // Probably not the best way to update TextView
@@ -193,9 +248,34 @@ public class ItemViewer extends AppCompatActivity implements View.OnClickListene
                 public void run() {
                     Log.e("UI thread", "I am the UI thread:  " + rwList.size());
 
-                    for (int i = 0; i < rwList.size(); i++) {
-                        urlInput.setText(urlInput.getText() + rwList.get(i).title + "\n" + rwList.get(i).desc + "\n" + rwList.get(i).link + "\n \n");
-                        rwList.remove(i);
+                    for (int i = 0; i < rwList.size(); i++)
+                    {
+                        if (fetchType == 1)
+                        {
+                            urlInput.setText(urlInput.getText() + rwList.get(i).title + "\n" + rwList.get(i).desc + "\n" + rwList.get(i).link + "\n \n");
+                        }
+                        else
+                        {
+                            urlInput.setText(urlInput.getText() + rwList.get(i).title + "\n" + rwList.get(i).startDate + "\n" + rwList.get(i).endDate + "\n" + rwList.get(i).link + "\n \n");
+
+                            long dateDifference = rwList.get(i).endDate.getTime() - rwList.get(i).startDate.getTime();
+                            long seconds = dateDifference / 1000;
+                            long minutes = seconds/60;
+                            long hours = minutes/60;
+                            long days = hours/24;
+
+                            if (days < 7)
+                            {
+                                urlInput.setTextColor(getResources().getColor(R.color.green));
+                            }
+                            else if (days > 7)
+                            {
+
+                                Log.e("Days: ", Long.toString(days));
+                            }
+                        }
+
+                        //rwList.remove(i);
 
                     }
 

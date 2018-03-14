@@ -75,14 +75,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void StartIncidents()
     {
         Intent i = new Intent(getApplicationContext(), ItemViewer.class);
-        i.putExtra("FetchType", "Current");
+        i.putExtra("FetchType", 1);
         startActivity(i);
     }
 
     public void StartPlannedRW()
     {
         Intent i = new Intent(getApplicationContext(), ItemViewer.class);
-        i.putExtra("FetchType", "Planned");
+        i.putExtra("FetchType", 2);
         startActivity(i);
     }
 
