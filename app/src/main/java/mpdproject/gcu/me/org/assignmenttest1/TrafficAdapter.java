@@ -48,10 +48,10 @@ public class TrafficAdapter extends BaseAdapter
     public View getView(int position, View convertView, ViewGroup parent) {
         View v = View.inflate(context, layoutId,null);
         TextView locationText = (TextView)v.findViewById(R.id.locationText);
-        TextView linkText = (TextView)v.findViewById(R.id.iddateText);
+        TextView date = (TextView)v.findViewById(R.id.iddateText);
 
         locationText.setText(data.get(position).title);
-        linkText.setText(data.get(position).link);
+        date.setText(data.get(position).startDate.toString() + " - " + data.get(position).endDate.toString() );
 
         v.setTag(data.get(position));
 

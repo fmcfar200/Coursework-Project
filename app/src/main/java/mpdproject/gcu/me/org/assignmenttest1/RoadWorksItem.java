@@ -12,8 +12,8 @@ public class RoadWorksItem
     String desc;
     String link;
 
-    Date startDate;
-    Date endDate;
+    String startDate;
+    String endDate;
 
     public RoadWorksItem(String title, String desc, String link)
     {

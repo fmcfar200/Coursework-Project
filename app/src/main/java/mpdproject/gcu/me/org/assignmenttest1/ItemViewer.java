@@ -1,7 +1,9 @@
 package mpdproject.gcu.me.org.assignmenttest1;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,13 +21,16 @@ import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.net.URL;
 import java.net.URLConnection;
+import java.sql.Time;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 public class ItemViewer extends AppCompatActivity implements View.OnClickListener {
 
@@ -44,6 +49,9 @@ public class ItemViewer extends AppCompatActivity implements View.OnClickListene
     TrafficAdapter adapter;
 
     List<RoadWorksItem> items;
+
+    ProgressDialog theDialog;
+
 
 
     @Override
@@ -65,12 +73,6 @@ public class ItemViewer extends AppCompatActivity implements View.OnClickListene
         items.add(new RoadWorksItem("meehhh", "hello", "hello"));
 
 
-
-        // adapter = new TrafficAdapter(this,R.layout.listview_item_layout,items);
-
-        //listView.setAdapter(adapter);
-
-
         if (fetchType == 1)
         {
             startProgress(url1, fetchType);
@@ -80,25 +82,10 @@ public class ItemViewer extends AppCompatActivity implements View.OnClickListene
             startProgress(url3, fetchType);
 
         }
+        theDialog = new ProgressDialog(ItemViewer.this);
+        theDialog.setMessage("Getting Traffic Info...");
+        theDialog.show();
 
-
-
-        /*
-        if (fetchType != null)
-        {
-            if (fetchType == "Current")
-            {
-                Log.e("type", fetchType);
-                //startProgress(url1);
-
-            }
-            else if (fetchType == "Planned")
-            {
-                //startProgress(url3);
-            }
-        }
-
-        */
     }
 
 
@@ -107,25 +94,18 @@ public class ItemViewer extends AppCompatActivity implements View.OnClickListene
 
     }
 
-    protected  void onStart()
-    {
-        super.onStart();
-
-
-    }
-
 
     public void startProgress(String url, int fetchType) {
 
         new Thread(new Task(url, fetchType)).start();
 
-        // Run network access on a separate thread;
 
-    } //
+    }
 
-    class Task implements Runnable {
+    class Task extends AsyncTask implements Runnable {
         private String url;
         private int fetchType;
+
 
         public Task(String aurl, int afetchType) {
             url = aurl;
@@ -150,24 +130,15 @@ public class ItemViewer extends AppCompatActivity implements View.OnClickListene
                 aurl = new URL(url);
                 yc = aurl.openConnection();
                 in = new BufferedReader(new InputStreamReader(yc.getInputStream()));
-                //
-                // Throw away the first 2 header lines before parsing
-                //
-                //
-                //
+
                 while ((inputLine = in.readLine()) != null) {
                     result = result + inputLine;
-                    //Log.e("MyTag",inputLine);
-
                 }
                 in.close();
             } catch (IOException ae) {
                 Log.e("MyTag", "ioexception");
             }
 
-            //
-            // Now that you have the xml data you can parse it
-            //
             if (result != null)
             {
                 try
@@ -197,7 +168,7 @@ public class ItemViewer extends AppCompatActivity implements View.OnClickListene
                                     } else if (pp.getName().equalsIgnoreCase("description"))
                                     {
                                         rwItem.desc = pp.nextText().trim();
-
+                                        SimpleDateFormat df = new SimpleDateFormat("dd MMMM yyyy");
                                         if (fetchType == 2)
                                         {
                                             String[] sd = rwItem.desc.split(":");
@@ -210,21 +181,17 @@ public class ItemViewer extends AppCompatActivity implements View.OnClickListene
                                             String[] ed3 = ed2[1].split(" - ");
                                             String endDate = ed3[0];
 
-                                            SimpleDateFormat df = new SimpleDateFormat("dd MMMM yyyy");
                                             Date myStartDate = df.parse(startDate);
                                             Date myEndDate = df.parse(endDate);
 
-                                            Log.e("Start Date", String.valueOf(myStartDate));
-                                            Log.e("End Date", String.valueOf(myEndDate));
-
-
-                                            rwItem.startDate = myStartDate;
-                                            rwItem.endDate = myEndDate;
+                                            rwItem.startDate = df.format(myStartDate);
+                                            rwItem.endDate = df.format(myEndDate);
                                         }
                                         else
                                         {
-                                            rwItem.startDate = null;
-                                            rwItem.endDate = null;
+                                            Date current = Calendar.getInstance().getTime();
+                                            rwItem.startDate = df.format(current);
+                                            rwItem.endDate = df.format(current);
                                         }
 
 
@@ -261,9 +228,7 @@ public class ItemViewer extends AppCompatActivity implements View.OnClickListene
                     e.printStackTrace();
                 }
             }
-            // Now update the TextView to display raw XML data
-            // Probably not the best way to update TextView
-            // but we are just getting started !
+
 
             ItemViewer.this.runOnUiThread(new Runnable() {
                 public void run() {
@@ -306,6 +271,8 @@ public class ItemViewer extends AppCompatActivity implements View.OnClickListene
                     listView.setAdapter(adapter);
 
 
+                    theDialog.dismiss();
+
                     //urlInput.setText(result);
                 }
 
@@ -313,6 +280,18 @@ public class ItemViewer extends AppCompatActivity implements View.OnClickListene
 
 
         }
+        @Override
+        protected void onPreExecute()
+        {
+
+        }
+
+        @Override
+        protected Object doInBackground(Object[] params) {
+            return null;
+        }
+
+
     }
 
 }
