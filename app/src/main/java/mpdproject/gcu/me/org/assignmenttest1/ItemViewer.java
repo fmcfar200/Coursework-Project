@@ -1,5 +1,6 @@
 package mpdproject.gcu.me.org.assignmenttest1;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -40,6 +41,9 @@ public class ItemViewer extends AppCompatActivity implements View.OnClickListene
 
     List<RoadWorksItem> rwList = new ArrayList<>();
     ListView listView;
+    TrafficAdapter adapter;
+
+    List<RoadWorksItem> items;
 
 
     @Override
@@ -55,6 +59,18 @@ public class ItemViewer extends AppCompatActivity implements View.OnClickListene
         int fetchType = extras.getInt("FetchType");;
         Log.e("tag", Integer.toString(fetchType));
 
+        items = new ArrayList<RoadWorksItem>();
+
+        items.add(new RoadWorksItem("hello", "hello", "hello"));
+        items.add(new RoadWorksItem("meehhh", "hello", "hello"));
+
+
+
+        // adapter = new TrafficAdapter(this,R.layout.listview_item_layout,items);
+
+        //listView.setAdapter(adapter);
+
+
         if (fetchType == 1)
         {
             startProgress(url1, fetchType);
@@ -64,6 +80,8 @@ public class ItemViewer extends AppCompatActivity implements View.OnClickListene
             startProgress(url3, fetchType);
 
         }
+
+
 
         /*
         if (fetchType != null)
@@ -171,7 +189,7 @@ public class ItemViewer extends AppCompatActivity implements View.OnClickListene
 
                                 if (pp.getName().equalsIgnoreCase("item"))
                                 {
-                                    rwItem = new RoadWorksItem();
+                                    rwItem = new RoadWorksItem(" "," ", " ");
                                 } else if (rwItem != null) {
                                     if (pp.getName().equalsIgnoreCase("title"))
                                     {
@@ -284,10 +302,10 @@ public class ItemViewer extends AppCompatActivity implements View.OnClickListene
                     }
                     */
                     Log.d("My list: ", String.valueOf(rwList.size()));
-
-                    TrafficAdapter adapter = new TrafficAdapter(this,R.layout.listview_item_layout,rwList);
-
+                    adapter = new TrafficAdapter(getApplicationContext(),R.layout.listview_item_layout,rwList);
                     listView.setAdapter(adapter);
+
+
                     //urlInput.setText(result);
                 }
 

@@ -14,4 +14,11 @@ public class RoadWorksItem
 
     Date startDate;
     Date endDate;
+
+    public RoadWorksItem(String title, String desc, String link)
+    {
+        this.title = title;
+        this.desc = desc;
+        this.link = link;
+    }
 }

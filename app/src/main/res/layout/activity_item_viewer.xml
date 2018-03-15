@@ -10,18 +10,10 @@
         <ListView
             android:id="@+id/listView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="505dp"
             android:divider="@color/red"
             android:dividerHeight="1dp">
 
         </ListView>
-
-        <TextView
-            android:id="@+id/urlInput"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text=""
-            />
     </LinearLayout>
 </ScrollView>
