@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -38,6 +39,7 @@ public class ItemViewer extends AppCompatActivity implements View.OnClickListene
     boolean fetched = false;
 
     List<RoadWorksItem> rwList = new ArrayList<>();
+    ListView listView;
 
 
     @Override
@@ -47,6 +49,7 @@ public class ItemViewer extends AppCompatActivity implements View.OnClickListene
         setContentView(R.layout.activity_item_viewer);
 
         urlInput = (TextView)findViewById(R.id.urlInput);
+        listView = (ListView)findViewById(R.id.listView);
 
         Bundle extras = getIntent().getExtras();
         int fetchType = extras.getInt("FetchType");;
@@ -247,7 +250,7 @@ public class ItemViewer extends AppCompatActivity implements View.OnClickListene
             ItemViewer.this.runOnUiThread(new Runnable() {
                 public void run() {
                     Log.e("UI thread", "I am the UI thread:  " + rwList.size());
-
+                    /*
                     for (int i = 0; i < rwList.size(); i++)
                     {
                         if (fetchType == 1)
@@ -275,11 +278,16 @@ public class ItemViewer extends AppCompatActivity implements View.OnClickListene
                             }
                         }
 
+
                         //rwList.remove(i);
 
                     }
-
+                    */
                     Log.d("My list: ", String.valueOf(rwList.size()));
+
+                    TrafficAdapter adapter = new TrafficAdapter(this,R.layout.listview_item_layout,rwList);
+
+                    listView.setAdapter(adapter);
                     //urlInput.setText(result);
                 }
 
