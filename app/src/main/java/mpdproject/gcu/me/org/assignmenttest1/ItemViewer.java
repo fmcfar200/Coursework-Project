@@ -9,7 +9,11 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -37,7 +41,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
-public class ItemViewer extends AppCompatActivity implements View.OnClickListener{
+public class ItemViewer extends AppCompatActivity{
 
 
     private String url1 = "https://trafficscotland.org/rss/feeds/currentincidents.aspx";
@@ -46,6 +50,8 @@ public class ItemViewer extends AppCompatActivity implements View.OnClickListene
     private String theURL;
 
     private String result = "";
+
+    Toolbar toolbar;
 
     List<RoadWorksItem> rwList = new ArrayList<>();
     TrafficAdapter adapter;
@@ -61,11 +67,14 @@ public class ItemViewer extends AppCompatActivity implements View.OnClickListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_viewer);
 
-        dateButton = (Button) findViewById(R.id.datebutton);
-        dateButton.setOnClickListener(this);
+        //dateButton = (Button) findViewById(R.id.datebutton);
+        //dateButton.setOnClickListener(this);
 
         listView = (ListView)findViewById(R.id.listView);
 
+        toolbar = (Toolbar)findViewById(R.id.toolbarID);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(null);
 
         Bundle extras = getIntent().getExtras();
         int fetchType = extras.getInt("FetchType");;
@@ -126,9 +135,20 @@ public class ItemViewer extends AppCompatActivity implements View.OnClickListene
     }
 
 
-    public void onClick(View v)
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
     {
-        if (v == dateButton)
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.viewer_menu,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        int id = item.getItemId();
+
+        if (id == R.id.calendarIcon)
         {
             Calendar calendar = Calendar.getInstance();
             int year = calendar.get(Calendar.YEAR);
@@ -145,8 +165,7 @@ public class ItemViewer extends AppCompatActivity implements View.OnClickListene
 
             dDialog.show();
         }
-
-
+        return true;
     }
 
 
