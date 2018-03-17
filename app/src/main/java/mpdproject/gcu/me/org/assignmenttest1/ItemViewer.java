@@ -2,6 +2,7 @@ package mpdproject.gcu.me.org.assignmenttest1;
 
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -164,6 +165,10 @@ public class ItemViewer extends AppCompatActivity{
             dDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
 
             dDialog.show();
+        }
+        else if (id == R.id.searchIcon)
+        {
+            ///search roads
         }
         return true;
     }
