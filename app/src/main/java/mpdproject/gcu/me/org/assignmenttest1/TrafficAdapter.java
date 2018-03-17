@@ -58,5 +58,11 @@ public class TrafficAdapter extends BaseAdapter
         return v;
     }
 
+    public void remove(Object item)
+    {
+        data.remove(item);
+    }
+
+
 
 }
