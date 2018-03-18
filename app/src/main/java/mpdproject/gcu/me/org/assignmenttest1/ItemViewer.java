@@ -264,12 +264,18 @@ public class ItemViewer extends AppCompatActivity{
                                             Date myStartDate = df.parse(startDate);
                                             Date myEndDate = df.parse(endDate);
 
+                                            rwItem.sdDate = myStartDate;
+                                            rwItem.edDate = myEndDate;
+
+
                                             rwItem.startDate = df.format(myStartDate);
                                             rwItem.endDate = df.format(myEndDate);
                                         }
                                         else
                                         {
                                             Date current = Calendar.getInstance().getTime();
+                                            rwItem.edDate = current;
+                                            rwItem.sdDate = current;
                                             rwItem.startDate = df.format(current);
                                             rwItem.endDate = df.format(current);
                                         }
