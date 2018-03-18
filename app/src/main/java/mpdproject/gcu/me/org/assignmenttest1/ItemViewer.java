@@ -88,10 +88,12 @@ public class ItemViewer extends AppCompatActivity{
         if (fetchType == 1)
         {
             startProgress(url1, fetchType);
+            getSupportActionBar().setTitle("Current Incidents");
         }
         else
         {
             startProgress(url3, fetchType);
+            getSupportActionBar().setTitle("Planned Roadworks");
 
         }
 
