@@ -3,14 +3,19 @@ package mpdproject.gcu.me.org.assignmenttest1;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
+import android.renderscript.Sampler;
 import android.support.v4.graphics.ColorUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -18,17 +23,21 @@ import java.util.List;
  * Created by Fraser on 15/03/2018.
  */
 
-public class TrafficAdapter extends BaseAdapter
+public class TrafficAdapter extends BaseAdapter implements Filterable
 {
     Context context;
     int layoutId;
     List<RoadWorksItem> data;
+    List<RoadWorksItem> mStringFilterList;
+
+    ValueFilter myFilter;
 
     public TrafficAdapter( Context context, int layoutId, List<RoadWorksItem> data)
     {
         this.context = context;
         this.layoutId = layoutId;
         this.data = data;
+        mStringFilterList = data;
     }
 
     @Override
@@ -54,7 +63,7 @@ public class TrafficAdapter extends BaseAdapter
         TextView days = (TextView)v.findViewById(R.id.daysTextID);
 
         locationText.setText(data.get(position).title);
-        date.setText(data.get(position).startDate.toString() + " - " + data.get(position).endDate.toString() );
+        date.setText(data.get(position).startDate + " - " + data.get(position).endDate );
 
         long mDays = data.get(position).getLengthOfRW();
         days.setText(Long.toString(mDays));
@@ -83,5 +92,51 @@ public class TrafficAdapter extends BaseAdapter
     }
 
 
+    @Override
+    public Filter getFilter()
+    {
+        if (myFilter == null)
+        {
+            myFilter = new ValueFilter();
+        }
 
+        return myFilter;
+    }
+
+
+    private class ValueFilter extends Filter
+    {
+
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            FilterResults results = new FilterResults();
+            if (constraint != null && constraint.length() >0)
+            {
+                List<RoadWorksItem> filteredList = new ArrayList<>();
+                for (int i = 0; i < mStringFilterList.size();i++)
+                {
+                    if (mStringFilterList.get(i).title.toUpperCase().contains(constraint.toString().toUpperCase()))
+                    {
+                        RoadWorksItem item = mStringFilterList.get(i);
+
+                        filteredList.add(item);
+                    }
+                }
+                results.count = filteredList.size();
+                results.values = filteredList;
+            }
+            else
+            {
+                results.count = mStringFilterList.size();
+                results.values = mStringFilterList;
+            }
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            data = (ArrayList<RoadWorksItem>)results.values;
+            notifyDataSetChanged();
+        }
+    }
 }

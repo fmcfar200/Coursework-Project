@@ -3,13 +3,16 @@ package mpdproject.gcu.me.org.assignmenttest1;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.app.SearchManager;
+import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -20,6 +23,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -57,11 +61,13 @@ public class ItemViewer extends AppCompatActivity{
     List<RoadWorksItem> rwList = new ArrayList<>();
     TrafficAdapter adapter;
 
+
     Button dateButton;
     ListView listView;
 
     ProgressDialog theDialog;
     DatePickerDialog.OnDateSetListener dateSetListener;
+
 
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -133,6 +139,9 @@ public class ItemViewer extends AppCompatActivity{
             }
         };
 
+
+
+
     }
 
 
@@ -141,6 +150,33 @@ public class ItemViewer extends AppCompatActivity{
     {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.viewer_menu,menu);
+
+        final SearchView searchView = (SearchView)MenuItemCompat.getActionView(menu.findItem(R.id.searchIcon));
+        if (searchView == null)
+        {
+            Log.e("Null", "searchview");
+        }
+        else
+        {
+            Log.e("found", "searchview" + searchView.getQuery());
+
+        }
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                Log.e("Sub", "hellllooo");
+
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                adapter.getFilter().filter(newText);
+
+                return false;
+            }
+        });
         return true;
     }
 
@@ -168,7 +204,7 @@ public class ItemViewer extends AppCompatActivity{
         }
         else if (id == R.id.searchIcon)
         {
-            ///search roads
+
         }
         return true;
     }
