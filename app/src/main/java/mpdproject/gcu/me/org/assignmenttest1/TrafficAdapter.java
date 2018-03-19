@@ -2,7 +2,9 @@ package mpdproject.gcu.me.org.assignmenttest1;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.renderscript.Sampler;
 import android.support.v4.graphics.ColorUtils;
 import android.view.LayoutInflater;
@@ -81,6 +83,25 @@ public class TrafficAdapter extends BaseAdapter implements Filterable
             days.setTextColor(Color.RED);
         }
 
+        if(context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)
+        {
+            TextView desc = (TextView)v.findViewById(R.id.fulldescID);
+
+            if (data.get(position).getWorks() != null)
+            {
+                desc.setText(R.string.works + data.get(position).getWorks() +"\n"+ R.string.mangement + data.get(position).getManagement());
+
+                if (data.get(position).getDiversionInfo()!=null)
+                {
+                    desc.setText(R.string.works + data.get(position).getWorks() + "\n" + R.string.mangement + data.get(position).getManagement() + "\n" + R.string.diversion + data.get(position).getDiversionInfo());
+                }
+            }
+            else
+            {
+                desc.setText(data.get(position).desc);
+            }
+        }
+
         v.setTag(data.get(position));
 
         return v;
@@ -102,6 +123,8 @@ public class TrafficAdapter extends BaseAdapter implements Filterable
 
         return myFilter;
     }
+
+
 
 
     private class ValueFilter extends Filter

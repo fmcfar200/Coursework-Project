@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Fraser McFarlane Assignment App</string>
+    <string name="works">Works: </string>
+    <string name="mangement">Traffic Management: </string>
+    <string name="diversion">Diversion: </string>
+
+
 </resources>

@@ -12,9 +12,12 @@ public class RoadWorksItem
     String desc;
     String link;
 
+    String works;
+    String management;
+    String diversionInfo;
+
     String startDate;
     String endDate;
-
     Date sdDate;
     Date edDate;
 
@@ -42,4 +45,31 @@ public class RoadWorksItem
             return 0;
         }
     }
+
+    public void setWorks(String works)
+    {
+        this.works = works;
+    }
+    public void setManagement(String management)
+    {
+        this.management = management;
+    }
+    public void setDiversionInfo(String diversionInfo)
+    {
+        this.diversionInfo = diversionInfo;
+    }
+
+    public String getWorks()
+    {
+        return this.works;
+    }
+    public String getManagement()
+    {
+        return this.management;
+    }
+    public String getDiversionInfo()
+    {
+        return this.diversionInfo;
+    }
+
 }

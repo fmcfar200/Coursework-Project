@@ -289,7 +289,10 @@ public class ItemViewer extends AppCompatActivity{
                                         SimpleDateFormat df = new SimpleDateFormat("dd MMMM yyyy");
                                         if (fetchType == 2)
                                         {
+                                            //splits up by colons
                                             String[] sd = rwItem.desc.split(":");
+
+                                            //split date for formatting
                                             String[] sd2 = sd[1].split(", ");
                                             String[] sd3 = sd2[1].split(" - ");
                                             String startDate = sd3[0];
@@ -299,15 +302,35 @@ public class ItemViewer extends AppCompatActivity{
                                             String[] ed3 = ed2[1].split(" - ");
                                             String endDate = ed3[0];
 
+                                            //parses dates
                                             Date myStartDate = df.parse(startDate);
                                             Date myEndDate = df.parse(endDate);
 
+                                            //sets Date and String variables
                                             rwItem.sdDate = myStartDate;
                                             rwItem.edDate = myEndDate;
-
-
                                             rwItem.startDate = df.format(myStartDate);
                                             rwItem.endDate = df.format(myEndDate);
+
+
+                                            String w = sd[5].replaceAll("Traffic Management"," ");
+                                            String m = sd[6].replaceAll("Diversion Information"," ");
+                                            rwItem.setWorks(w);
+                                            rwItem.setManagement(m);
+
+                                            if (rwItem.desc.contains("Diversion Information"))
+                                            {
+                                                String diversionString = rwItem.desc.substring(rwItem.desc.indexOf("Diversion Information:"));
+                                                diversionString = diversionString.replaceAll("Diversion Information:","");
+                                                rwItem.setDiversionInfo(diversionString);
+                                            }
+                                            else
+                                            {
+                                                rwItem.setDiversionInfo(null);
+                                            }
+
+
+
                                         }
                                         else
                                         {
@@ -356,44 +379,9 @@ public class ItemViewer extends AppCompatActivity{
 
             ItemViewer.this.runOnUiThread(new Runnable() {
                 public void run() {
-                    Log.e("UI thread", "I am the UI thread:  " + rwList.size());
-                    /*
-                    for (int i = 0; i < rwList.size(); i++)
-                    {
-                        if (fetchType == 1)
-                        {
-                            urlInput.setText(urlInput.getText() + rwList.get(i).title + "\n" + rwList.get(i).desc + "\n" + rwList.get(i).link + "\n \n");
-                        }
-                        else
-                        {
-                            urlInput.setText(urlInput.getText() + rwList.get(i).title + "\n" + rwList.get(i).startDate + "\n" + rwList.get(i).endDate + "\n" + rwList.get(i).link + "\n \n");
-
-                            long dateDifference = rwList.get(i).endDate.getTime() - rwList.get(i).startDate.getTime();
-                            long seconds = dateDifference / 1000;
-                            long minutes = seconds/60;
-                            long hours = minutes/60;
-                            long days = hours/24;
-
-                            if (days < 7)
-                            {
-                                urlInput.setTextColor(getResources().getColor(R.color.green));
-                            }
-                            else if (days > 7)
-                            {
-
-                                Log.e("Days: ", Long.toString(days));
-                            }
-                        }
-
-
-                        //rwList.remove(i);
-
-                    }
-                    */
                     Log.d("My list: ", String.valueOf(rwList.size()));
                     adapter = new TrafficAdapter(getApplicationContext(),R.layout.listview_item_layout,rwList);
                     listView.setAdapter(adapter);
-
 
                     theDialog.dismiss();
 
