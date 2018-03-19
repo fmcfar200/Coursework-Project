@@ -22,12 +22,13 @@
         android:id="@+id/incidentsButton"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_marginTop="125dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
+        android:layout_marginStart="125dp"
+        android:layout_centerVertical="true"
+
         android:drawableTop="@mipmap/ic_launcher_currentincidents"
         android:background="@color/yellow"
         android:text="Current Incidents">
+
 
     </Button>
 
@@ -35,14 +36,17 @@
 
     <Button
         android:id="@+id/plannedRWButton"
+
         android:layout_width="100dp"
         android:layout_height="100dp"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@+id/incidentsButton"
+        android:layout_marginStart="125dp"
+
         android:background="@color/yellow"
-        android:layout_marginTop="62.5dp"
-        android:layout_below="@+id/incidentsButton"
-        android:layout_alignStart="@+id/incidentsButton"
         android:drawableTop="@mipmap/ic_launcher_planned"
-        android:text="Planned Roadworks"/>
+        android:text="Planned Roadworks"
+        />
 
 
 

@@ -34,8 +34,8 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener
 {
 
-    private ImageButton incidentsButton;
-    private ImageButton plannedRWButton;
+    private Button incidentsButton;
+    private Button plannedRWButton;
 
     private enum fetchType
     {
@@ -49,10 +49,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        incidentsButton = (ImageButton) findViewById(R.id.incidentsButton);
+        incidentsButton = (Button) findViewById(R.id.incidentsButton);
         incidentsButton.setOnClickListener(this);
 
-        plannedRWButton = (ImageButton) findViewById(R.id.plannedRWButton);
+        plannedRWButton = (Button) findViewById(R.id.plannedRWButton);
         plannedRWButton.setOnClickListener(this);
 
     } // End of onCreate
