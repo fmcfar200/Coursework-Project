@@ -48,7 +48,7 @@ public class TrafficAdapter extends BaseAdapter implements Filterable
     }
 
     @Override
-    public Object getItem(int position) {
+    public RoadWorksItem getItem(int position) {
         return data.get(position);
     }
 
@@ -89,11 +89,11 @@ public class TrafficAdapter extends BaseAdapter implements Filterable
 
             if (data.get(position).getWorks() != null)
             {
-                desc.setText(R.string.works + data.get(position).getWorks() +"\n"+ R.string.mangement + data.get(position).getManagement());
+                desc.setText("Works: " + data.get(position).getWorks() +"\n"+ "Traffic Management: " + data.get(position).getManagement());
 
                 if (data.get(position).getDiversionInfo()!=null)
                 {
-                    desc.setText(R.string.works + data.get(position).getWorks() + "\n" + R.string.mangement + data.get(position).getManagement() + "\n" + R.string.diversion + data.get(position).getDiversionInfo());
+                    desc.setText("Works: " + data.get(position).getWorks() + "\n" + "Traffic Management: " + data.get(position).getManagement() + "\n" + "Diversion: " + data.get(position).getDiversionInfo());
                 }
             }
             else

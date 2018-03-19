@@ -1,12 +1,13 @@
 package mpdproject.gcu.me.org.assignmenttest1;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by Fraser on 23/02/2018.
  */
 
-public class RoadWorksItem
+public class RoadWorksItem implements Serializable
 {
     String title;
     String desc;

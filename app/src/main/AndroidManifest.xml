@@ -22,10 +22,9 @@
         <activity android:name=".ItemViewer">
             <meta-data
                 android:name="android.app.searchable"
-                android:resource="@xml/search">
-
-            </meta-data>
+                android:resource="@xml/search"></meta-data>
         </activity>
+        <activity android:name=".ItemDetail"></activity>
     </application>
 
 </manifest>

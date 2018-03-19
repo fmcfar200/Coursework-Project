@@ -19,6 +19,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ListView;
@@ -138,12 +139,30 @@ public class ItemViewer extends AppCompatActivity{
                 }
 
 
+
             }
         };
 
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
+            @Override
+            public void onItemClick(AdapterView<?> adapter, View view, int position, long id)
+            {
+                RoadWorksItem item = (RoadWorksItem)adapter.getItemAtPosition(position);
+                StartFullDetail(item);
+
+            }
+        });
 
 
 
+    }
+
+    private void StartFullDetail(RoadWorksItem item)
+    {
+        Intent i = new Intent(getApplicationContext(), ItemDetail.class);
+        i.putExtra("RoadWorksItem",item);
+        startActivity(i);
     }
 
 
