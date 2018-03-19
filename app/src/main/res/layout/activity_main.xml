@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
-            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:orientation="vertical"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent">
-                <Button
-                    android:id="@+id/incidentsButton"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:text="current incidents"
-                    />
 
-                <Button
-                android:id="@+id/plannedRWButton"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="planned roadworks"
-                />
+    <ImageButton
+        android:id="@+id/incidentsButton"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true"
+        android:layout_gravity="center"
+        android:src="@mipmap/ic_launcher_currentincidents"
+        android:scaleType="fitXY"
+        android:background="@color/white">
 
-                <TextView
-                    android:id="@+id/urlInput"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="20sp"
-                    android:text=""
-                />
-    </LinearLayout>
-</ScrollView>
+
+    </ImageButton>
+
+    <ImageButton
+        android:id="@+id/plannedRWButton"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_below="@+id/incidentsButton"
+        android:layout_alignStart="@+id/incidentsButton"
+        android:src="@mipmap/ic_launcher_planned"
+        android:scaleType="fitXY"
+        android:background="@color/white"/>
+
+</RelativeLayout>

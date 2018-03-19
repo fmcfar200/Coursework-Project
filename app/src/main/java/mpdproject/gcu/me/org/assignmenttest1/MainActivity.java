@@ -8,11 +8,13 @@
 package mpdproject.gcu.me.org.assignmenttest1;
 
 import android.content.Intent;
+import android.media.Image;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -32,8 +34,8 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener
 {
 
-    private Button incidentsButton;
-    private Button plannedRWButton;
+    private ImageButton incidentsButton;
+    private ImageButton plannedRWButton;
 
     private enum fetchType
     {
@@ -47,10 +49,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        incidentsButton = (Button)findViewById(R.id.incidentsButton);
+        incidentsButton = (ImageButton) findViewById(R.id.incidentsButton);
         incidentsButton.setOnClickListener(this);
 
-        plannedRWButton = (Button)findViewById(R.id.plannedRWButton);
+        plannedRWButton = (ImageButton) findViewById(R.id.plannedRWButton);
         plannedRWButton.setOnClickListener(this);
 
     } // End of onCreate
