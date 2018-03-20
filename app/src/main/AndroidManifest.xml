@@ -4,6 +4,10 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
 
     <application
         android:allowBackup="true"
@@ -12,6 +16,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+
+
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,9 +29,19 @@
         <activity android:name=".ItemViewer">
             <meta-data
                 android:name="android.app.searchable"
-                android:resource="@xml/search"></meta-data>
+                android:resource="@xml/search">
+
+            </meta-data>
         </activity>
-        <activity android:name=".ItemDetail"></activity>
+        <activity
+            android:name=".ItemDetail">
+
+            <meta-data
+                android:name="com.google.android.gms.version"
+                android:value="AIzaSyCOPGsOUuPrszrkLXunZY0iy10bLZ4_8MY">
+            </meta-data>
+
+        </activity>
     </application>
 
 </manifest>

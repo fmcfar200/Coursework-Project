@@ -1,14 +1,27 @@
 package mpdproject.gcu.me.org.assignmenttest1;
 
+import android.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
 
-public class ItemDetail extends AppCompatActivity {
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.MapsInitializer;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
+
+public class ItemDetail extends FragmentActivity implements OnMapReadyCallback {
 
     private TextView titleText;
     private TextView descriptionText;
+
+    GoogleMap mGMap;
+    MapView mapView;
 
     RoadWorksItem theItem;
 
@@ -19,6 +32,7 @@ public class ItemDetail extends AppCompatActivity {
 
         titleText = (TextView)findViewById(R.id.titleID);
         descriptionText = (TextView)findViewById(R.id.descriptionID);
+        mapView = (MapView)findViewById(R.id.map);
 
         theItem = (RoadWorksItem) getIntent().getSerializableExtra("RoadWorksItem");
 
@@ -42,5 +56,15 @@ public class ItemDetail extends AppCompatActivity {
         {
             descriptionText.setText(theItem.desc + "\n" + theItem.link + "\n" + theItem.getLat() + " " + theItem.getLon());
         }
+
+        if (mapView!= null)
+        {
+            Log.e("Ye", "hello");
+        }
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+
     }
 }
