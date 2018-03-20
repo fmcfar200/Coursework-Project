@@ -26,16 +26,21 @@ public class ItemDetail extends AppCompatActivity {
 
         if (theItem.getWorks() != null)
         {
-            descriptionText.setText("Works: " + theItem.getWorks() +"\n"+ "Traffic Management: " + theItem.getManagement());
+            descriptionText.setText("Works: " + theItem.getWorks() +"\n"
+                    + "Traffic Management: " + theItem.getManagement() + "\n"
+                    + "Link: " + theItem.link);
 
             if (theItem.getDiversionInfo()!=null)
             {
-                descriptionText.setText("Works: " + theItem.getWorks() + "\n" + "Traffic Management: " + theItem.getManagement() + "\n" + "Diversion: " + theItem.getDiversionInfo());
+                descriptionText.setText("Works: " + theItem.getWorks() + "\n"
+                        + "Traffic Management: " + theItem.getManagement() + "\n"
+                        + "Diversion: " + theItem.getDiversionInfo() + "\n"
+                        + "Link: " + theItem.link);
             }
         }
         else
         {
-            descriptionText.setText(theItem.desc);
+            descriptionText.setText(theItem.desc + "\n" + theItem.link + "\n" + theItem.getLat() + " " + theItem.getLon());
         }
     }
 }

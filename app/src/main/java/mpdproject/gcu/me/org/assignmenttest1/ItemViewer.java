@@ -173,21 +173,9 @@ public class ItemViewer extends AppCompatActivity{
         menuInflater.inflate(R.menu.viewer_menu,menu);
 
         final SearchView searchView = (SearchView)MenuItemCompat.getActionView(menu.findItem(R.id.searchIcon));
-        if (searchView == null)
-        {
-            Log.e("Null", "searchview");
-        }
-        else
-        {
-            Log.e("found", "searchview" + searchView.getQuery());
-
-        }
-
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                Log.e("Sub", "hellllooo");
-
                 return false;
             }
 
@@ -259,11 +247,7 @@ public class ItemViewer extends AppCompatActivity{
             BufferedReader in = null;
             String inputLine = "";
 
-
-            Log.e("MyTag", "in run");
-
             try {
-                Log.e("MyTag", "in try");
                 aurl = new URL(url);
                 yc = aurl.openConnection();
                 in = new BufferedReader(new InputStreamReader(yc.getInputStream()));
@@ -298,11 +282,13 @@ public class ItemViewer extends AppCompatActivity{
                                 if (pp.getName().equalsIgnoreCase("item"))
                                 {
                                     rwItem = new RoadWorksItem(" "," ", " ");
-                                } else if (rwItem != null) {
+                                } else if (rwItem != null)
+                                {
                                     if (pp.getName().equalsIgnoreCase("title"))
                                     {
                                         rwItem.title = pp.nextText().trim();
-                                    } else if (pp.getName().equalsIgnoreCase("description"))
+                                    }
+                                    else if (pp.getName().equalsIgnoreCase("description"))
                                     {
                                         rwItem.desc = pp.nextText().trim();
                                         SimpleDateFormat df = new SimpleDateFormat("dd MMMM yyyy");
@@ -362,9 +348,22 @@ public class ItemViewer extends AppCompatActivity{
 
 
 
-                                    } else if (pp.getName().equalsIgnoreCase("link"))
+                                    }
+                                    else if (pp.getName().equalsIgnoreCase("link"))
                                     {
                                         rwItem.link = pp.nextText().trim();
+
+                                    }
+                                    else if (pp.getName().equalsIgnoreCase("point"))
+                                    {
+                                        String llStr = pp.nextText().trim();
+                                        String lonString = llStr.substring(llStr.indexOf("-"));
+                                        String latString = llStr.replaceAll(lonString,"");
+
+                                        rwItem.setLat(Double.valueOf(latString));
+                                        rwItem.setLon(Double.valueOf(lonString));
+
+
                                     }
 
                                 }
@@ -398,7 +397,6 @@ public class ItemViewer extends AppCompatActivity{
 
             ItemViewer.this.runOnUiThread(new Runnable() {
                 public void run() {
-                    Log.d("My list: ", String.valueOf(rwList.size()));
                     adapter = new TrafficAdapter(getApplicationContext(),R.layout.listview_item_layout,rwList);
                     listView.setAdapter(adapter);
 
