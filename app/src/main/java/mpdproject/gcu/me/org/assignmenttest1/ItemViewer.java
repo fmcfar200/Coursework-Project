@@ -160,7 +160,7 @@ public class ItemViewer extends AppCompatActivity{
 
     private void StartFullDetail(RoadWorksItem item)
     {
-        Intent i = new Intent(getApplicationContext(), ItemDetail.class);
+        Intent i = new Intent(getApplicationContext(), MapsActivity.class);
         i.putExtra("RoadWorksItem",item);
         startActivity(i);
     }

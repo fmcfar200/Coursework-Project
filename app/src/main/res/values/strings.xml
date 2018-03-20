@@ -3,6 +3,7 @@
     <string name="works">Works: </string>
     <string name="mangement">Traffic Management: </string>
     <string name="diversion">Diversion: </string>
+    <string name="title_activity_maps">Map</string>
 
 
 </resources>
