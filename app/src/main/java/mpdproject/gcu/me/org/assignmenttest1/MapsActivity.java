@@ -31,7 +31,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private TextView dateText;
     private TextView daysText;
     private TextView linkText;
-    private ImageView colourImage;
 
 
 
@@ -54,7 +53,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         linkText = (TextView)findViewById(R.id.linkText);
         dateText = (TextView)findViewById(R.id.dateText);
         daysText = (TextView)findViewById(R.id.daysText);
-        colourImage = (ImageView)findViewById(R.id.colourImage);
 
         radioGroup = (RadioGroup)findViewById(R.id.radioGroup);
 
@@ -89,15 +87,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             if (iDays < 7)
             {
-                colourImage.setBackgroundColor(Color.GREEN);
+                daysText.setBackgroundColor(Color.GREEN);
             }
             else if (iDays >= 7 && iDays < 14)
             {
-                colourImage.setBackgroundColor(Color.rgb(255,191,0));
+                daysText.setBackgroundColor(Color.rgb(255,191,0));
             }
             else if (iDays >= 14)
             {
-                colourImage.setBackgroundColor(Color.RED);
+                daysText.setBackgroundColor(Color.RED);
             }
 
         }
