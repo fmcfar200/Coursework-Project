@@ -50,6 +50,7 @@ import java.util.Objects;
 public class ItemViewer extends AppCompatActivity{
 
 
+    ///private String url1 = "https://www.nasa.gov/rss/dyn/breaking_news.rss";
     private String url1 = "https://trafficscotland.org/rss/feeds/currentincidents.aspx";
     private String url3 = "https://trafficscotland.org/rss/feeds/plannedroadworks.aspx";
 
@@ -82,6 +83,7 @@ public class ItemViewer extends AppCompatActivity{
 
         toolbar = (Toolbar)findViewById(R.id.toolbarID);
         setSupportActionBar(toolbar);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(null);
 
         Bundle extras = getIntent().getExtras();
@@ -257,7 +259,7 @@ public class ItemViewer extends AppCompatActivity{
                 }
                 in.close();
             } catch (IOException ae) {
-                Log.e("MyTag", "ioexception");
+                Log.e("MyTag", "ioexception" + ae.getCause());
             }
 
             if (result != null)

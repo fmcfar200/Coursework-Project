@@ -6,17 +6,13 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
 
-    <RelativeLayout
+    <ImageView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/background"
-            android:scaleType="fitXY">
+        android:layout_height="match_parent"
+        android:src="@drawable/background"
+        android:scaleType="fitXY">
 
-        </ImageView>
-    </RelativeLayout>
+    </ImageView>
 
     <Button
         android:id="@+id/incidentsButton"

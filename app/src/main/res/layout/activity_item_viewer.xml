@@ -12,21 +12,15 @@
         >
     </android.support.v7.widget.Toolbar>
 
-
-
-    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width = "match_parent"
-        android:layout_height="match_parent">
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-
             <ListView
                 android:id="@+id/listView"
                 android:layout_width="match_parent"
-                android:layout_height="505dp"
+                android:layout_height="match_parent"
                 android:divider="@color/colorPrimary"
                 android:dividerHeight="1dp"
                 android:padding="5dp"
@@ -35,7 +29,6 @@
 
             </ListView>
         </LinearLayout>
-    </ScrollView>
 
 </LinearLayout>
 
