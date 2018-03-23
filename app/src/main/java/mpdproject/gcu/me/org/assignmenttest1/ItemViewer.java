@@ -50,7 +50,6 @@ import java.util.Objects;
 public class ItemViewer extends AppCompatActivity{
 
 
-    ///private String url1 = "https://www.nasa.gov/rss/dyn/breaking_news.rss";
     private String url1 = "https://trafficscotland.org/rss/feeds/currentincidents.aspx";
     private String url3 = "https://trafficscotland.org/rss/feeds/plannedroadworks.aspx";
 
@@ -76,8 +75,6 @@ public class ItemViewer extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_viewer);
 
-        //dateButton = (Button) findViewById(R.id.datebutton);
-        //dateButton.setOnClickListener(this);
 
         listView = (ListView)findViewById(R.id.listView);
 
@@ -90,20 +87,16 @@ public class ItemViewer extends AppCompatActivity{
         int fetchType = extras.getInt("FetchType");;
         if (fetchType == 1)
         {
-            startProgress(url1, fetchType);
+            BeginFeed(url1, fetchType);
             getSupportActionBar().setTitle("Current Incidents");
         }
         else
         {
-            startProgress(url3, fetchType);
+            BeginFeed(url3, fetchType);
             getSupportActionBar().setTitle("Planned Roadworks");
 
         }
 
-
-        theDialog = new ProgressDialog(ItemViewer.this);
-        theDialog.setMessage("Getting Traffic Info...");
-        theDialog.show();
 
         dateSetListener = new DatePickerDialog.OnDateSetListener()
         {
@@ -222,23 +215,180 @@ public class ItemViewer extends AppCompatActivity{
 
 
 
-    public void startProgress(String url, int fetchType) {
-
-        new Thread(new Task(url, fetchType)).start();
-
+    public void BeginFeed(String url, int fetchType)
+    {
+        RSSFetch rssFetch = new RSSFetch(url, fetchType);
+        rssFetch.execute();
 
     }
 
-    class Task extends AsyncTask implements Runnable {
-        private String url;
-        private int fetchType;
+    class RSSFetch extends AsyncTask<Void, Void, List<RoadWorksItem>>{
 
+        private String theUrl;
+        private int theFetchType;
+        List<RoadWorksItem> thelist;
 
-        public Task(String aurl, int afetchType) {
-            url = aurl;
-            fetchType = afetchType;
+        public RSSFetch(String url, int fetchType)
+        {
+            theUrl = url;
+            theFetchType = fetchType;
+
         }
 
+        @Override
+        protected void onPreExecute()
+        {
+            theDialog = new ProgressDialog(ItemViewer.this);
+            theDialog.setMessage("Getting Traffic Info...");
+            theDialog.show();
+        }
+
+        @Override
+        protected List<RoadWorksItem> doInBackground(Void... theVoid) {
+            RoadWorksItem rwItem = null;
+            rwList = new ArrayList<>();
+
+            URL aurl;
+            URLConnection yc;
+            BufferedReader in = null;
+            String inputLine = "";
+
+            try {
+                aurl = new URL(theUrl);
+                yc = aurl.openConnection();
+                in = new BufferedReader(new InputStreamReader(yc.getInputStream()));
+
+                while ((inputLine = in.readLine()) != null) {
+                    result = result + inputLine;
+                }
+                in.close();
+            } catch (IOException ae) {
+                Log.e("MyTag", "ioexception" + ae.getCause());
+            }
+
+            if (result != null) {
+                try {
+                    XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
+                    factory.setNamespaceAware(true);
+                    XmlPullParser pp = factory.newPullParser();
+                    pp.setInput(new StringReader(result));
+
+                    int eventType = pp.getEventType();
+                    boolean finished = false;
+                    while (eventType != XmlPullParser.END_DOCUMENT && !finished) {
+                        switch (eventType) {
+                            case XmlPullParser.START_DOCUMENT:
+                                break;
+                            case XmlPullParser.START_TAG:
+
+                                if (pp.getName().equalsIgnoreCase("item")) {
+                                    rwItem = new RoadWorksItem(" ", " ", " ");
+                                } else if (rwItem != null) {
+                                    if (pp.getName().equalsIgnoreCase("title")) {
+                                        rwItem.title = pp.nextText().trim();
+                                    } else if (pp.getName().equalsIgnoreCase("description")) {
+                                        rwItem.desc = pp.nextText().trim();
+                                        SimpleDateFormat df = new SimpleDateFormat("dd MMMM yyyy");
+                                        if (theFetchType == 2) {
+                                            //splits up by colons
+                                            String[] sd = rwItem.desc.split(":");
+
+                                            //split date for formatting
+                                            String[] sd2 = sd[1].split(", ");
+                                            String[] sd3 = sd2[1].split(" - ");
+                                            String startDate = sd3[0];
+
+                                            String ed = sd[3];
+                                            String[] ed2 = ed.split(", ");
+                                            String[] ed3 = ed2[1].split(" - ");
+                                            String endDate = ed3[0];
+
+                                            //parses dates
+                                            Date myStartDate = df.parse(startDate);
+                                            Date myEndDate = df.parse(endDate);
+
+                                            //sets Date and String variables
+                                            rwItem.sdDate = myStartDate;
+                                            rwItem.edDate = myEndDate;
+                                            rwItem.startDate = df.format(myStartDate);
+                                            rwItem.endDate = df.format(myEndDate);
+
+
+                                            String w = sd[5].replaceAll("Traffic Management", " ");
+                                            String m = sd[6].replaceAll("Diversion Information", " ");
+                                            rwItem.setWorks(w);
+                                            rwItem.setManagement(m);
+
+                                            if (rwItem.desc.contains("Diversion Information")) {
+                                                String diversionString = rwItem.desc.substring(rwItem.desc.indexOf("Diversion Information:"));
+                                                diversionString = diversionString.replaceAll("Diversion Information:", "");
+                                                rwItem.setDiversionInfo(diversionString);
+                                            } else {
+                                                rwItem.setDiversionInfo(null);
+                                            }
+
+
+                                        } else {
+                                            Date current = Calendar.getInstance().getTime();
+                                            rwItem.edDate = current;
+                                            rwItem.sdDate = current;
+                                            rwItem.startDate = df.format(current);
+                                            rwItem.endDate = df.format(current);
+                                        }
+
+
+                                    } else if (pp.getName().equalsIgnoreCase("link")) {
+                                        rwItem.link = pp.nextText().trim();
+
+                                    } else if (pp.getName().equalsIgnoreCase("point")) {
+                                        String llStr = pp.nextText().trim();
+                                        String lonString = llStr.substring(llStr.indexOf("-"));
+                                        String latString = llStr.replaceAll(lonString, "");
+
+                                        rwItem.setLat(Double.valueOf(latString));
+                                        rwItem.setLon(Double.valueOf(lonString));
+
+
+                                    }
+
+                                }
+                                break;
+                            case XmlPullParser.END_TAG:
+                                if (pp.getName().equalsIgnoreCase("item") && rwItem != null) {
+                                    rwList.add(rwItem);
+
+                                } else if (pp.getName().equalsIgnoreCase("channel")) {
+                                    finished = true;
+                                }
+                                break;
+                        }
+                        eventType = pp.next();
+                    }
+                } catch (XmlPullParserException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            return rwList;
+        }
+
+
+
+        @Override
+        protected void onPostExecute(List<RoadWorksItem> result)
+        {
+            adapter = new TrafficAdapter(getApplicationContext(),R.layout.listview_item_layout,result);
+            listView.setAdapter(adapter);
+            theDialog.dismiss();
+        }
+    }
+
+        /*
 
         @Override
         public void run() {
@@ -400,29 +550,18 @@ public class ItemViewer extends AppCompatActivity{
 
             ItemViewer.this.runOnUiThread(new Runnable() {
                 public void run() {
-                    adapter = new TrafficAdapter(getApplicationContext(),R.layout.listview_item_layout,rwList);
-                    listView.setAdapter(adapter);
 
-                    theDialog.dismiss();
 
                 }
 
             });
 
 
-        }
-        @Override
-        protected void onPreExecute()
-        {
+
 
         }
 
-        @Override
-        protected Object doInBackground(Object[] params) {
-            return null;
-        }
+        */
 
-
-    }
 
 }
