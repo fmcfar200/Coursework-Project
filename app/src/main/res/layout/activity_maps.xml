@@ -38,7 +38,7 @@
             android:layout_marginTop="25dp"
             android:layout_marginStart="25dp"
             android:layout_marginEnd="25dp"
-            tools:context="mpdproject.gcu.me.org.assignmenttest1.MapsActivity">
+            tools:context="mpdproject.gcu.me.org.assignmenttest1.InformationActivity">
         </fragment>
 
 
@@ -74,27 +74,6 @@
 
 
     </TableRow>
-
-    <TableRow>
-
-        <TextView
-            android:id="@+id/descriptionID"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="25dp"
-            android:layout_marginEnd="25dp"
-            android:text="I AM DESCRIPTION"
-            android:textSize="18sp"
-            android:textAlignment="textStart"
-            android:textColor="@color/black">
-
-
-        </TextView>
-
-    </TableRow>
-
     <TableRow>
         <TextView
             android:id="@+id/daysText"
@@ -120,12 +99,36 @@
             android:layout_marginTop="10dp"
             android:layout_marginStart="25dp"
             android:text="Dates"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:textColor="@color/black"/>
 
 
 
     </TableRow>
+
+    <TableRow>
+
+        <TextView
+            android:id="@+id/descriptionID"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="25dp"
+            android:text="I AM DESCRIPTION"
+            android:textSize="14sp"
+            android:textAlignment="textStart"
+            android:textColor="@color/black">
+
+
+        </TextView>
+
+    </TableRow>
+
+
+
+
 
     <TableRow android:layout_height="match_parent" android:layout_width="match_parent">
         <TextView

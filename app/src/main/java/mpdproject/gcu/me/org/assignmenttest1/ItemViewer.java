@@ -2,9 +2,6 @@ package mpdproject.gcu.me.org.assignmenttest1;
 
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
-import android.app.SearchManager;
-import android.content.ClipData;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -23,8 +20,6 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -36,16 +31,12 @@ import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.net.URL;
 import java.net.URLConnection;
-import java.sql.Time;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
-import java.util.Objects;
 
 public class ItemViewer extends AppCompatActivity{
 
@@ -155,7 +146,7 @@ public class ItemViewer extends AppCompatActivity{
 
     private void StartFullDetail(RoadWorksItem item)
     {
-        Intent i = new Intent(getApplicationContext(), MapsActivity.class);
+        Intent i = new Intent(getApplicationContext(), InformationActivity.class);
         i.putExtra("RoadWorksItem",item);
         startActivity(i);
     }

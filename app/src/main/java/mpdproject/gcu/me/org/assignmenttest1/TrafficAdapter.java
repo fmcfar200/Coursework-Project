@@ -89,11 +89,11 @@ public class TrafficAdapter extends BaseAdapter implements Filterable
 
             if (data.get(position).getWorks() != null)
             {
-                desc.setText("Works: " + data.get(position).getWorks() +"\n"+ "Traffic Management: " + data.get(position).getManagement());
+                desc.setText("Works: " + data.get(position).getWorks() +"\n \n"+ "Traffic Management: " + data.get(position).getManagement());
 
                 if (data.get(position).getDiversionInfo()!=null)
                 {
-                    desc.setText("Works: " + data.get(position).getWorks() + "\n" + "Traffic Management: " + data.get(position).getManagement() + "\n" + "Diversion: " + data.get(position).getDiversionInfo());
+                    desc.setText("Works: " + data.get(position).getWorks() + "\n \n" + "Traffic Management: " + data.get(position).getManagement() + "\n \n" + "Diversion: " + data.get(position).getDiversionInfo());
                 }
             }
             else

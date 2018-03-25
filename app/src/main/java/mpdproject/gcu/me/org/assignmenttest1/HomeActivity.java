@@ -31,7 +31,7 @@ import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener
+public class HomeActivity extends AppCompatActivity implements View.OnClickListener
 {
 
     private Button incidentsButton;
