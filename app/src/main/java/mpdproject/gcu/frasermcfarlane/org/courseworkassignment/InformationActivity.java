@@ -2,7 +2,7 @@
     Fraser McFarlane S1434566
 */
 
-package mpdproject.gcu.me.org.assignmenttest1;
+package mpdproject.gcu.frasermcfarlane.org.courseworkassignment;
 
 import android.graphics.Color;
 import android.support.annotation.IdRes;
@@ -17,8 +17,6 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-
-import org.w3c.dom.Text;
 
 public class InformationActivity extends FragmentActivity implements OnMapReadyCallback {
 

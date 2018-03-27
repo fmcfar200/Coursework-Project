@@ -48,7 +48,7 @@
             android:layout_marginTop="25dp"
             android:layout_marginStart="25dp"
             android:layout_marginEnd="25dp"
-            tools:context="mpdproject.gcu.me.org.assignmenttest1.InformationActivity">
+            tools:context="mpdproject.gcu.frasermcfarlane.org.courseworkassignment.InformationActivity">
         </fragment>
 
 

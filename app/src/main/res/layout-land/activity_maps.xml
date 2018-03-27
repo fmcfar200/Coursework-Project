@@ -67,7 +67,7 @@
                 android:layout_height="250dp"
                 android:layout_marginTop="25dp"
                 android:layout_marginStart="25dp"
-                tools:context="mpdproject.gcu.me.org.assignmenttest1.InformationActivity">
+                tools:context="mpdproject.gcu.frasermcfarlane.org.courseworkassignment.InformationActivity">
             </fragment>
 
             <RadioGroup

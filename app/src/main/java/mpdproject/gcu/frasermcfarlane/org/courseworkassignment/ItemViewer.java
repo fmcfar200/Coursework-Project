@@ -2,7 +2,7 @@
     Fraser McFarlane S1434566
 */
 
-package mpdproject.gcu.me.org.assignmenttest1;
+package mpdproject.gcu.frasermcfarlane.org.courseworkassignment;
 
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
@@ -21,7 +21,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ListView;
 

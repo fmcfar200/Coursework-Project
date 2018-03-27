@@ -1,8 +1,6 @@
-package mpdproject.gcu.me.org.assignmenttest1;
+package mpdproject.gcu.frasermcfarlane.org.courseworkassignment;
 
 import org.junit.Test;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by Fraser on 24/03/2018.

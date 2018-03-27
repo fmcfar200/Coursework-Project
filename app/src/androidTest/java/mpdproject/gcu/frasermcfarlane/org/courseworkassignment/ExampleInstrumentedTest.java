@@ -1,4 +1,4 @@
-package mpdproject.gcu.me.org.assignmenttest1;
+package mpdproject.gcu.frasermcfarlane.org.courseworkassignment;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

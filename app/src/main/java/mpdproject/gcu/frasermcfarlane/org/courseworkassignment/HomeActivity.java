@@ -3,7 +3,7 @@
 */
 
 
-package mpdproject.gcu.me.org.assignmenttest1;
+package mpdproject.gcu.frasermcfarlane.org.courseworkassignment;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;

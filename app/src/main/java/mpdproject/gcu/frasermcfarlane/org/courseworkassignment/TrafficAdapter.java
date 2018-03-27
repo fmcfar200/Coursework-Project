@@ -2,7 +2,7 @@
     Fraser McFarlane S1434566
 */
 
-package mpdproject.gcu.me.org.assignmenttest1;
+package mpdproject.gcu.frasermcfarlane.org.courseworkassignment;
 
 import android.content.Context;
 import android.content.res.Configuration;
