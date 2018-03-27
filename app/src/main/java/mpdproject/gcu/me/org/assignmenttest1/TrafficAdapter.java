@@ -1,29 +1,23 @@
+/*
+    Fraser McFarlane S1434566
+*/
+
 package mpdproject.gcu.me.org.assignmenttest1;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Color;
-import android.graphics.drawable.GradientDrawable;
-import android.renderscript.Sampler;
-import android.support.v4.graphics.ColorUtils;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-/**
- * Created by Fraser on 15/03/2018.
- */
+
 
 public class TrafficAdapter extends BaseAdapter implements Filterable
 {

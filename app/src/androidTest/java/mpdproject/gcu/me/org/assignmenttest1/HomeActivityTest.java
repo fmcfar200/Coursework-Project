@@ -1,3 +1,7 @@
+/*
+    Fraser McFarlane S1434566
+*/
+
 package mpdproject.gcu.me.org.assignmenttest1;
 
 import android.content.Context;
@@ -28,9 +32,6 @@ import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.Matchers.hasToString;
 import static org.hamcrest.core.StringStartsWith.startsWith;
 
-/**
- * Created by Fraser on 25/03/2018.
- */
 
 @RunWith(AndroidJUnit4.class)
 public class HomeActivityTest

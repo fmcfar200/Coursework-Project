@@ -1,3 +1,5 @@
+<!-- Fraser McFarlane S1434566 -->
+
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="wrap_content"
     android:layout_width="match_parent">
@@ -10,6 +12,14 @@
     android:shrinkColumns="0"
     android:stretchColumns="1"
     >
+
+    <TableRow>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Fraser McFarlane S1434566"/>
+
+    </TableRow>
     <TableRow>
         <TextView
             android:id="@+id/titleID"

@@ -1,15 +1,13 @@
+/*
+    Fraser McFarlane S1434566
+*/
+
 package mpdproject.gcu.me.org.assignmenttest1;
 
 import android.graphics.Color;
-import android.provider.MediaStore;
 import android.support.annotation.IdRes;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
-import android.text.method.LinkMovementMethod;
-import android.util.Log;
-import android.widget.CompoundButton;
-import android.widget.ImageView;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
@@ -17,7 +15,6 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 

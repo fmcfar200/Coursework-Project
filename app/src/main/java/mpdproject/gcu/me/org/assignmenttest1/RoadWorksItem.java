@@ -1,11 +1,12 @@
+/*
+    Fraser McFarlane S1434566
+*/
+
 package mpdproject.gcu.me.org.assignmenttest1;
 
 import java.io.Serializable;
 import java.util.Date;
 
-/**
- * Created by Fraser on 23/02/2018.
- */
 
 public class RoadWorksItem implements Serializable {
     String title;
@@ -24,8 +25,6 @@ public class RoadWorksItem implements Serializable {
 
     double lat;
     double lon;
-
-    String latlonString;
 
     public RoadWorksItem(String title, String desc, String link) {
         this.title = title;

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Fraser McFarlane S1434566 -->
 
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -43,6 +44,13 @@
         android:drawableTop="@mipmap/ic_launcher_planned"
         android:text="Planned Roadworks"
         />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Fraser McFarlane S1434566"/>
+
 
 
 
